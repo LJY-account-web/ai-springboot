@@ -30,8 +30,8 @@ public class PsychologicalChat {
     @PostMapping("/session/start")
     public Result<StructOutPut.StreamChatSession> startSession(@Valid @RequestBody ConsultationSessionCreateDTO consultationSessionCreateDTO) {
         //获取当前用户
-        String Token = JwtTokenUtil.getCurrentToken();
-        DecodedJWT jwt = JwtTokenUtil.verifyToken(Token);
+        String token = JwtTokenUtil.getCurrentToken();
+        DecodedJWT jwt = JwtTokenUtil.verifyToken(token);
         Long userId = jwt.getClaim("userId").asLong();
         //调用服务层创建咨询会话
         StructOutPut.StreamChatSession session = psychologicalSupportService.startSession(userId, consultationSessionCreateDTO);
@@ -41,8 +41,8 @@ public class PsychologicalChat {
     @PostMapping(value = "/stream", produces = "text/event-stream")
     public Flux<ServerSentEvent<String>> streamChat(@Valid @RequestBody ConsultationStreamDTO streamDTO) {
         //获取当前用户
-        String Token = JwtTokenUtil.getCurrentToken();
-        DecodedJWT jwt = JwtTokenUtil.verifyToken(Token);
+        String token = JwtTokenUtil.getCurrentToken();
+        DecodedJWT jwt = JwtTokenUtil.verifyToken(token);
         Long userId = jwt.getClaim("userId").asLong();
 
         if (userId == null) {
